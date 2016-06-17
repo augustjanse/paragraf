@@ -2,9 +2,9 @@ import sys
 import re
 
 class Paragraf:
-    setext = re.compile("[=\-]+\s*")
-    h1_setext = re.compile("=+\s*")
-    h2_setext = re.compile("-+\s*")
+    setext = re.compile("[=\-]{2,}\s*")
+    h1_setext = re.compile("={2,}\s*")
+    h2_setext = re.compile("-{2,}\s*")
 
     atx = re.compile("#+ .*")
     h1_atx = re.compile("# .*")
