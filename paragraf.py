@@ -27,6 +27,11 @@ class Paragraf:
 
         return paragraph + " "
 
+    def set_heading_numbers(self, heading):
+        self.heading_numbers[heading - 1] += 1 # increment given heading
+        for i in range(heading, len(self.heading_numbers)): # reset the following
+            self.heading_numbers[i] = 0
+
     def run(self):
         with open(sys.argv[1], "r") as f:
             lines = f.readlines()
@@ -34,7 +39,7 @@ class Paragraf:
 
             for i, line in (enumerate(lines)):
                 if self.h1_setext.match(line):
-                    self.heading_numbers[0] += 1
+                    self.set_heading_numbers(1)
                     lines[i-1] = self.generate_paragraph() + lines[i-1]
                     print(self.heading_numbers)
 
