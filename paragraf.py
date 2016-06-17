@@ -21,7 +21,7 @@ class Paragraf:
 
         for number in self.heading_numbers:
             if number is not 0:
-                paragraph += number
+                paragraph += str(number)
             else:
                 break
 
@@ -33,11 +33,12 @@ class Paragraf:
             print(lines)
 
             for i, line in (enumerate(lines)):
-                if self.setext.match(line):
-                    print("inne")
-                    lines[i-1] = self.generate_paragraph() + line
+                if self.h1_setext.match(line):
+                    self.heading_numbers[0] += 1
+                    lines[i-1] = self.generate_paragraph() + lines[i-1]
+                    print(self.heading_numbers)
 
-            print(lines)
+            #print(lines)
             open("out.md", "w").writelines(lines)
 
 p = Paragraf()
