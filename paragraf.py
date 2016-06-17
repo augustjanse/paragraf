@@ -38,20 +38,16 @@ class Paragraf:
     def run(self):
         with open(sys.argv[1], "r") as f:
             lines = f.readlines()
-            print(lines)
 
             for i, line in (enumerate(lines)):
                 if self.h1_setext.match(line):
                     self.set_heading_numbers(1)
                     lines[i-1] = self.generate_paragraph() + lines[i-1]
-                    print(self.heading_numbers)
 
                 if self.h2_setext.match(line):
                     self.set_heading_numbers(2)
                     lines[i-1] = self.generate_paragraph() + lines[i-1]
-                    print(self.heading_numbers)
 
-            #print(lines)
             open("out.md", "w").writelines(lines)
 
 p = Paragraf()
