@@ -19,11 +19,14 @@ class Paragraf:
     def generate_paragraph(self):
         paragraph = "§"
 
-        for number in self.heading_numbers:
-            if number is not 0:
-                paragraph += str(number)
+        for i in range(0, len(self.heading_numbers)):
+            if self.heading_numbers[i] is not 0:
+                paragraph += str(self.heading_numbers[i])
             else:
                 break
+
+            if self.heading_numbers[i + 1] is not 0:
+                paragraph += "."
 
         return paragraph + " "
 
