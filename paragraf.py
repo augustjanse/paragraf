@@ -2,9 +2,9 @@ import sys
 import re
 
 class Paragraf:
-    setext = re.compile("[=\-]{2,}\s*")
     h1_setext = re.compile("={2,}\s*")
     h2_setext = re.compile("-{2,}\s*")
+    setext_patterns = [h1_setext, h2_setext]
 
     atx = re.compile("#+ .*")
     h1_atx = re.compile("# .*")
@@ -39,14 +39,11 @@ class Paragraf:
         with open(sys.argv[1], "r") as f:
             lines = f.readlines()
 
-            for i, line in (enumerate(lines)):
-                if self.h1_setext.match(line):
-                    self.set_heading_numbers(1)
-                    lines[i-1] = self.generate_paragraph() + lines[i-1]
-
-                if self.h2_setext.match(line):
-                    self.set_heading_numbers(2)
-                    lines[i-1] = self.generate_paragraph() + lines[i-1]
+            for i, line in enumerate(lines):
+                for j, pattern in enumerate(self.setext_patterns):
+                    if pattern.match(line):
+                        self.set_heading_numbers(j + 1)
+                        lines[i - 1] = self.generate_paragraph() + lines[i - 1]
 
             open("out.md", "w").writelines(lines)
 
