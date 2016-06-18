@@ -36,7 +36,7 @@ class Paragraf:
             self.heading_numbers[i] = 0
 
     def run(self):
-        with open(sys.argv[1], "r") as f:
+        with open(sys.argv[1], "r+") as f:
             lines = f.readlines()
 
             for i, line in enumerate(lines):
@@ -52,7 +52,9 @@ class Paragraf:
                                 r"\1" + self.generate_paragraph(),
                                 lines[i])
 
-            open("out.md", "w").writelines(lines)
+            f.seek(0)
+            f.writelines(lines)
+            f.truncate()
 
 p = Paragraf()
 p.run()
