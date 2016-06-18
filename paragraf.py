@@ -6,13 +6,13 @@ class Paragraf:
     h2_setext = re.compile("-{2,}\s*")
     setext_patterns = [h1_setext, h2_setext]
 
-    atx = re.compile("#+ .*")
     h1_atx = re.compile("# .*")
     h2_atx = re.compile("## .*")
     h3_atx = re.compile("### .*")
     h4_atx = re.compile("#### .*")
     h5_atx = re.compile("##### .*")
     h6_atx = re.compile("###### .*")
+    atx_patterns = [h1_atx, h2_atx, h3_atx, h4_atx, h5_atx, h6_atx]
 
     heading_numbers = [0,0,0,0,0,0]
 
@@ -44,6 +44,13 @@ class Paragraf:
                     if pattern.match(line):
                         self.set_heading_numbers(j + 1)
                         lines[i - 1] = self.generate_paragraph() + lines[i - 1]
+
+                for j, pattern in enumerate(self.atx_patterns):
+                    if pattern.match(line):
+                        self.set_heading_numbers(j + 1)
+                        lines[i] = re.sub(r"(#+ )",
+                                r"\1" + self.generate_paragraph(),
+                                lines[i])
 
             open("out.md", "w").writelines(lines)
 
